@@ -137,3 +137,12 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# プロジェクト固有の除外設定
+_BACKUP/
+_ARCHIVE/
+logs/*.log
+config/.env
+*.pyc
+__pycache__/
+.DS_Store

@@ -1,0 +1,43 @@
+{
+  "name": "AI Agent Platform Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/go:1": {
+      "version": "1.21"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {}
+  },
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "ms-kubernetes-tools.vscode-kubernetes-tools"
+      ],
+      "settings": {
+        "go.useLanguageServer": true,
+        "editor.formatOnSave": true
+      }
+    }
+  },
+  
+  "postCreateCommand": "echo '🚀 Development environment ready!'",
+  
+  "forwardPorts": [3000, 5173, 8080, 8180, 5432],
+  
+  "portsAttributes": {
+    "3000": {"label": "Frontend (Alt)"},
+    "5173": {"label": "Vite Dev Server"},
+    "8080": {"label": "Backend API"},
+    "8180": {"label": "Keycloak"},
+    "5432": {"label": "PostgreSQL"}
+  }
+}
