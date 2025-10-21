@@ -1,0 +1,154 @@
+.chat-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.chat-header {
+  background: #646cff;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.chat-agent-info h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.chat-agent-info p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background: #f5f5f5;
+}
+
+.chat-welcome {
+  text-align: center;
+  color: #888;
+  margin-top: 3rem;
+}
+
+.chat-welcome h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.message {
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.assistant {
+  justify-content: flex-start;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  word-wrap: break-word;
+}
+
+.message.user .message-content {
+  background: #646cff;
+  color: white;
+}
+
+.message.assistant .message-content {
+  background: white;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.message-content.loading {
+  background: white;
+  border: 1px solid #ddd;
+  color: #888;
+}
+
+.loading .dot {
+  animation: blink 1.4s infinite;
+  font-size: 1.5rem;
+}
+
+.loading .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #ddd;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
+.send-button {
+  padding: 0.75rem 1.5rem;
+  background: #646cff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.send-button:hover:not(:disabled) {
+  background: #535bf2;
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

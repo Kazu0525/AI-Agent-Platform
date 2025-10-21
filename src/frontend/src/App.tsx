@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import './App.css'
+import ChatScreen from './ChatScreen'
 
 interface Agent {
   id: string
@@ -13,10 +14,10 @@ function App() {
   const [agents, setAgents] = useState<Agent[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
 
   const API_BASE_URL = 'https://silver-giggle-q7vrx5q55573549-8080.app.github.dev/api/v1'
 
-  // エージェント一覧を取得
   const fetchAgents = async () => {
     setLoading(true)
     setError('')
@@ -31,10 +32,19 @@ function App() {
     }
   }
 
-  // 初回レンダリング時にエージェントを取得
   useEffect(() => {
     fetchAgents()
   }, [])
+
+  if (selectedAgent) {
+    return (
+      <ChatScreen 
+        agent={selectedAgent} 
+        onBack={() => setSelectedAgent(null)}
+        apiBaseUrl={API_BASE_URL}
+      />
+    )
+  }
 
   return (
     <div className="App">
@@ -59,7 +69,12 @@ function App() {
               <div key={agent.id} className="agent-card">
                 <h3>{agent.name}</h3>
                 <p>{agent.description}</p>
-                <button className="btn-primary">チャット開始</button>
+                <button 
+                  className="btn-primary"
+                  onClick={() => setSelectedAgent(agent)}
+                >
+                  チャット開始
+                </button>
               </div>
             ))}
           </div>
@@ -67,7 +82,6 @@ function App() {
           {agents.length === 0 && !loading && !error && (
             <div className="empty-state">
               <p>エージェントがまだありません</p>
-              <button className="btn-primary">+ 新規作成</button>
             </div>
           )}
         </div>
