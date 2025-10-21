@@ -14,7 +14,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const API_BASE_URL = 'http://localhost:8080/api/v1'
+  const API_BASE_URL = 'https://silver-giggle-q7vrx5q55573549-8080.app.github.dev/api/v1'
 
   // エージェント一覧を取得
   const fetchAgents = async () => {

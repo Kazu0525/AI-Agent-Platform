@@ -4,15 +4,16 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 type Agent struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Description  string `json:"description"`
 	SystemPrompt string `json:"system_prompt"`
 }
 
@@ -20,14 +21,23 @@ func main() {
 	// Ginのルーターを作成
 	r := gin.Default()
 
-	// CORS設定（フロントエンドからのアクセスを許可）
+	// CORS設定（Codespaces対応）
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000"},
+		AllowOrigins: []string{
+			"http://localhost:5173",
+			"http://localhost:5174",
+			"http://localhost:3000",
+			"https://*.app.github.dev", // Codespaces用
+		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			// GitHub Codespacesのドメインを許可
+			return strings.Contains(origin, "github.dev") ||
+				strings.Contains(origin, "localhost")
+		},
 	}))
-
 	// ヘルスチェック
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -44,15 +54,15 @@ func main() {
 		v1.GET("/agents", func(c *gin.Context) {
 			agents := []Agent{
 				{
-					ID:          "1",
-					Name:        "カスタマーサポートAI",
-					Description: "顧客対応を支援するエージェント",
+					ID:           "1",
+					Name:         "カスタマーサポートAI",
+					Description:  "顧客対応を支援するエージェント",
 					SystemPrompt: "あなたは親切なカスタマーサポート担当です。",
 				},
 				{
-					ID:          "2",
-					Name:        "コーディングアシスタント",
-					Description: "プログラミングをサポートするエージェント",
+					ID:           "2",
+					Name:         "コーディングアシスタント",
+					Description:  "プログラミングをサポートするエージェント",
 					SystemPrompt: "あなたは経験豊富なソフトウェアエンジニアです。",
 				},
 			}
@@ -65,9 +75,9 @@ func main() {
 		v1.GET("/agents/:id", func(c *gin.Context) {
 			id := c.Param("id")
 			agent := Agent{
-				ID:          id,
-				Name:        "サンプルエージェント",
-				Description: "これはサンプルです",
+				ID:           id,
+				Name:         "サンプルエージェント",
+				Description:  "これはサンプルです",
 				SystemPrompt: "あなたは役立つAIアシスタントです。",
 			}
 			c.JSON(http.StatusOK, agent)
